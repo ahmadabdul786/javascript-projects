@@ -1,10 +1,29 @@
 'use strict';
 
-const randomNum = Math.round(Math.random() * 20 + 1);
+let randomNum = Math.round(Math.random() * 20 + 1);
 //localStorage.setItem('highScore', 20);
 
 console.log(randomNum);
 let score = 20;
+
+initialHighScore();
+//running the check btn
+document
+  .querySelector('.check')
+  .addEventListener('click', () => checkingNumber());
+// reseting all
+document.querySelector('.again').addEventListener('click', reset);
+
+function reset() {
+  randomNum = Math.round(Math.random() * 20 + 1);
+  score = 20;
+  document.querySelector('.highscore').textContent = score;
+  document.querySelector('body').style.backgroundColor = 'black';
+  document.querySelector('.number').style.width = '15rem';
+  document.querySelector('.guess').value = '';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.message').textContent = 'start Guessing...';
+}
 
 function checkNumber(number) {
   if (score > 0) {
@@ -40,13 +59,10 @@ function checkNumber(number) {
     document.querySelector('.message').textContent = 'you have loose the game';
   }
 }
-initialHighScore();
-document
-  .querySelector('.btn-check')
-  .addEventListener('click', () => checkingNumber());
 
 function checkingNumber() {
   let input = document.querySelector('.guess').value;
+  if (!input) return;
   console.log(input);
   checkNumber(input);
 }
