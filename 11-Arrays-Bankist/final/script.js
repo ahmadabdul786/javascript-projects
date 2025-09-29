@@ -6,11 +6,31 @@
 
 /////////////////////////////////////////////////
 // Data
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth();
+const day = date.getDay();
+const displayDate = `${day}/${month}/${year}`;
+// account1.movementsDate = Array.from(
+//   { length: account1.movements.length },
+//   (_, i) => displayDate
+//);
+
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  movementsDate: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+  ],
   type: 'premium',
 };
 
@@ -20,6 +40,16 @@ const account2 = {
   interestRate: 1.5,
   pin: 2222,
   type: 'standard',
+  movementsDate: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+  ],
 };
 
 const account3 = {
@@ -27,6 +57,16 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  movementsDate: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+  ],
   type: 'premium',
 };
 
@@ -36,6 +76,16 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
   type: 'basic',
+  movementsDate: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+    '2019-11-18T21:31:17.178Z',
+  ],
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -70,10 +120,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
@@ -131,7 +183,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -233,7 +285,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
